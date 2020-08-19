@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use MarcReichel\IGDBLaravel\Models\Company;
 use MarcReichel\IGDBLaravel\Models\Game;
 use MarcReichel\IGDBLaravel\Models\PlatformLogo;
 
@@ -23,7 +24,7 @@ class GameController extends Controller
         $afterFourMonths = Carbon::now()->addMonths(4)->timestamp;
 
 
-        $popularGames = Game::select(['name', 'first_release_date', 'popularity', 'rating'])
+        $popularGames = Game::select(['name', 'first_release_date', 'popularity', 'rating', 'slug'])
             ->where('aggregated_rating', '>=', 88)
             ->whereIn('platforms', ['48','49','130','6'])
             ->whereYear('first_release_date', date('Y')-1, date('Y'))
@@ -34,7 +35,7 @@ class GameController extends Controller
 
         //dump($popularGames);
 
-        $recentlyReviewed=Game::select(['name', 'first_release_date', 'popularity', 'rating', 'rating_count', 'summary'])
+        $recentlyReviewed=Game::select(['name', 'first_release_date', 'popularity', 'rating', 'rating_count', 'summary', 'slug'])
             ->whereIn('platforms', ['48','49','130','6'])
             ->whereBetween('first_release_date', $before, $current)
             ->where('rating_count', '>', 5)
@@ -46,7 +47,7 @@ class GameController extends Controller
 
         // dump($recentlyReviewed);
 
-        $mostAnticipated=Game::select(['name', 'first_release_date', 'popularity', 'rating', 'rating_count', 'summary'])
+        $mostAnticipated=Game::select(['name', 'first_release_date', 'popularity', 'rating', 'rating_count', 'summary', 'slug'])
             ->whereIn('platforms', ['48','49','130','6'])
             ->whereBetween('first_release_date', $current, $afterFourMonths)
             ->with(['cover' => ['url', 'image_id']])
@@ -57,7 +58,7 @@ class GameController extends Controller
 
         // dump($mostAnticipated);
 
-       $comingSoon=Game::select(['name', 'first_release_date', 'popularity', 'rating', 'rating_count', 'summary'])
+       $comingSoon=Game::select(['name', 'first_release_date', 'popularity', 'rating', 'rating_count', 'summary', 'slug'])
            ->whereIn('platforms', ['48','49','130','6'])
            ->where('first_release_date', '>=', $current)
            ->with(['cover' => ['url', 'image_id']])
@@ -98,9 +99,22 @@ class GameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $game = Http::withHeaders(config('services.igdb'))
+            ->withOptions([
+                'body' => "
+                    fields name, cover.url, first_release_date, popularity, platforms.abbreviation, rating,
+                    slug, involved_companies.company.name, genres.name, aggregated_rating, summary, websites.*, videos.*, screenshots.*, similar_games.cover.url, similar_games.name, similar_games.rating,similar_games.platforms.abbreviation, similar_games.slug;
+                    where slug=\"{$slug}\";
+                "
+            ])->get('https://api-v3.igdb.com/games')
+            ->json();
+
+
+        return view('show', [
+            'game' => $game[0],
+        ]);
     }
 
     /**

@@ -7,9 +7,8 @@
                 @foreach ($popularGames as $game)
                     <div class="game mt-8">
                         <div class="relative inline-block">
-                            <a href="#"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']) }}" alt="game cover" class="w-32 md:w-48 lg:w-64 hover:opacity-75 transition ease-in-out duration-150 shadow-lg"></a>
+                            <a href="{{ route('games.show', $game['slug']) }}"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']) }}" alt="game cover" class="w-32 md:w-48 lg:w-64 hover:opacity-75 transition ease-in-out duration-150 shadow-lg"></a>
                             <div class="absolute bottom-0 right-0 w-12 lg:w-16 h-12 lg:h-16 bg-gray-800 rounded-full" style="right:-20px; bottom:-20px">
-                                <!--<div class="font-semibold text-xs flex justify-center items-center h-full">{{ round($game['aggregated_rating']).'%' }}</div>-->
                                 <div class="progress" value="{{ round($game['aggregated_rating'])}}"></div>
                             </div>
                         </div>
@@ -29,7 +28,7 @@
                     @foreach($recentlyReviewed as $gameReview)
                     <div class="game bg-gray-800 rounded-lg shadow-md flex px-6 py-6">
                         <div class="relative flex-none">
-                            <a href="#"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $gameReview['cover']['url']) }}" alt="game cover" class="w-24 lg:w-48 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
+                            <a href="{{ route('games.show', $gameReview['slug']) }}"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $gameReview['cover']['url']) }}" alt="game cover" class="w-24 lg:w-48 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
                             <div class="absolute bottom-0 right-0 w-12 lg:w-16 h-12 lg:h-16 bg-gray-900 rounded-full" style="right:-20px; bottom:-20px">
                                 <div class="progress" value="{{ round($gameReview['rating'])}}"></div>
                             </div>
@@ -53,7 +52,7 @@
                 <div class="most-anticipated-container space-y-10 mt-8">
                     @foreach($mostAnticipated as $anticipatedGame)
                     <div class="game flex">
-                        <a href="#"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $anticipatedGame['cover']['url']) }}" alt="game cover" class="w-24 lg:w-48 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
+                        <a href="{{ route('games.show', $anticipatedGame['slug']) }}"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $anticipatedGame['cover']['url']) }}" alt="game cover" class="w-24 lg:w-48 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
                         <div class="ml-4">
                             <a href="#" class="hover:text-gray-300">{{ $anticipatedGame['name'] }}</a>
                             <div class="text-gray-400 text-sm mt-1">{{ date('j M Y', strtotime($anticipatedGame['first_release_date']) ) }}</div>
@@ -65,7 +64,7 @@
                 <div class="coming-soon-container space-y-10 mt-8">
                     @foreach($comingSoon as $soonGame)
                     <div class="game flex">
-                        <a href="#"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $soonGame['cover']['url']) }}" alt="game cover" class="w-16 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
+                        <a href="{{ route('games.show', $soonGame['slug']) }}"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $soonGame['cover']['url']) }}" alt="game cover" class="w-16 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
                         <div class="ml-4">
                             <a href="#" class="hover:text-gray-300">{{ $soonGame['name'] }}</a>
                             <div class="text-gray-400 text-sm mt-1">{{ date('j M Y', strtotime($soonGame['first_release_date']) ) }}</div>
