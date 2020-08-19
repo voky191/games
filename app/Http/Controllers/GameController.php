@@ -29,7 +29,7 @@ class GameController extends Controller
             ->whereYear('first_release_date', date('Y')-1, date('Y'))
             ->with(['cover' => ['url', 'image_id']])
             ->with(['platforms' => ['abbreviation', 'name', 'platform_logo']])
-            ->limit(12)
+            ->limit(6)
             ->get();
 
         //dump($popularGames);

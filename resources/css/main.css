@@ -3,3 +3,13 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.progress {
+    width: 100px;
+    height: 100px;
+}
+
+.progress > svg {
+    width: 100%;
+    display: block;
+}
