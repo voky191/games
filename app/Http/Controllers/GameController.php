@@ -52,7 +52,7 @@ class GameController extends Controller
             ->with(['cover' => ['url', 'image_id']])
             ->with(['platforms' => ['abbreviation', 'name', 'platform_logo']])
             ->orderBy('popularity', 'desc')
-            ->limit(4)
+            ->limit(2)
             ->get();
 
         // dump($mostAnticipated);
