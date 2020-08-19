@@ -83,7 +83,7 @@
                 color: endColor,
                 easing: 'linear',
                 strokeWidth: 6,
-                duration: 1500,
+                duration: 2000,
                 text: {
                     value: '0'
                 }
