@@ -4,10 +4,13 @@
     <div class="container mx-auto px-4">
         <div class="game-details pb-12 flex flex-col lg:flex-row  border-b border-gray-800">
             <div class="flex-none">
+                @if (array_key_exists('cover', $game))
                 <img src="{{ Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']) }}" alt="cover" class="ml-auto mr-auto">
+                    @endif
             </div>
             <div class="lg:ml-12 xl:mr-64">
                 <h2 class="font-semibold text-4xl leading-tight mt-1"  style="text-align: center">{{ $game['name'] }}</h2>
+                @if (array_key_exists('genres', $game))
                 <div class="text-gray-400"style="text-align: center">
                     <span> @foreach ($game['genres'] as $genre)
                             {{ $genre['name'] }}
@@ -21,6 +24,7 @@
                             @endif
                         @endforeach</span>
                 </div>
+                @endif
 
                 <div class="flex flex-wrap items-center mt-8">
                     <div class="flex items-center">
@@ -68,11 +72,14 @@
 
                 </div>
 
+                @if (array_key_exists('summary', $game))
                 <p class="mt-12">{{ $game['summary'] }}</p>
+                @endif
 
             </div>
         </div> <!-- end game-details -->
 
+        @if (array_key_exists('screenshots', $game))
         <div class="images-container border-b border-gray-800 pb-12 mt-8">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Images</h2>
             <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
@@ -85,7 +92,9 @@
                 @endforeach
             </div>
         </div> <!-- end images-container -->
+        @endif
 
+        @if (array_key_exists('videos', $game))
         <div class="iframe-container mt-12 border-b border-gray-800">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold mb-8">Related Video</h2>
             <iframe src="//www.youtube.com/embed/{{ $game['videos'][0]['video_id'] }}" allowfullscreen style="border: 0; height: 562px; left: 0; width: 80%;" class="mb-16 hidden md:block"></iframe>
@@ -94,7 +103,9 @@
                 <span class="ml-2">Play Trailer</span>
             </a>
         </div>
+        @endif
 
+        @if (array_key_exists('similar_games', $game))
         <div class="similar-games-container mt-8">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Similar Games</h2>
             <div class="similar-games text-sm grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-12" style="text-align: center">
@@ -126,6 +137,8 @@
                 @endforeach
             </div> <!-- end similar-games -->
         </div> <!-- end similar-games-container -->
+        @endif
+
     </div>
     <script>
         let endColor = '#9ec64d';
