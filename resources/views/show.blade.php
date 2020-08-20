@@ -39,7 +39,7 @@
                     </div>
                     <div class="flex items-center ml-12">
                         <div class="w-16 h-16 bg-gray-800 rounded-full">
-                            @if (array_key_exists('rating', $game))
+                            @if (array_key_exists('aggregated_rating', $game))
                                 <div class="progress" value="{{ round($game['aggregated_rating'])}}"></div>
                             @else
                                 <div class="progress" value="0"></div>
@@ -126,13 +126,15 @@
                         </div>
                     </div>
                     <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">{{ $sgame['name'] }}</a>
-                    <div class="text-gray-400 mt-1">@if (array_key_exists('platforms', $sgame))
+                    <div class="text-gray-400 mt-1">
+                        @if (array_key_exists('platforms', $sgame))
                             @foreach ($sgame['platforms'] as $platform)
                                 @if (array_key_exists('abbreviation', $platform))
                                     {{ $platform['abbreviation'] }}
                                 @endif
                             @endforeach
-                        @endif</div>
+                        @endif
+                    </div>
                   </div>
                 @endforeach
             </div> <!-- end similar-games -->
