@@ -98,7 +98,7 @@
         <div class="iframe-container mt-12 border-b border-gray-800">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold mb-8">Related Video</h2>
             <iframe src="//www.youtube.com/embed/{{ $game['videos'][0]['video_id'] }}" allowfullscreen style="border: 0; height: 562px; left: 0; width: 80%;" class="mb-16 hidden md:block"></iframe>
-            <a href="https://youtube.com/watch/{{ $game['videos'][0]['video_id'] }}" class="inline-flex bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150 block md:hidden mb-16">
+            <a href="https://youtube.com/watch/{{ $game['videos'][0]['video_id'] }}" class="inline-flex bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150 block md:hidden mb-16" style="height: 56px">
                 <svg class="w-6 fill-current" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                 <span class="ml-2">Play Trailer</span>
             </a>
