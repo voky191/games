@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'GameController@index')->name('games');
 Route::get('/game/{slug}', 'SingleGameController@index')->name('games.show');
-Route::post('/search', 'SearchController@index')->name('search');
+Route::post('/search', 'SearchController@index')->name('search')->middleware('notEmptyInput');

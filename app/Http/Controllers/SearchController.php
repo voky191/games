@@ -11,6 +11,7 @@ class SearchController extends Controller
     public function index(Request $request){
 
         $name = $request->input('search');
+        //if($name != '') {
         $games = Game::search($name)
             ->with(['cover' => ['url', 'image_id']])
             ->get();
@@ -18,5 +19,7 @@ class SearchController extends Controller
         //dump($games);
 
         return view('search', compact(['games', 'name']));
+       /* } else
+            return redirect('/');*/
     }
 }

@@ -29,7 +29,7 @@
             <div class="relative">
                 <form action="{{ route('search') }}" method="POST">
                     @csrf
-                <input type="text" class="bg-gray-800 text-sm rounded-full px-3 py-1 pl-8 w-64 focus:outline-none focus:shadow-outline" placeholder="Search..." name="search" id="search">
+                <input type="text" required class="bg-gray-800 text-sm rounded-full px-3 py-1 pl-8 w-64 focus:outline-none focus:shadow-outline" placeholder="Search..." name="search" id="search">
                 <div class="absolute top-0 flex items-center h-full ml-2">
                     <button type="Submit">
                     <svg viewBox="0 0 16 16" class="bi bi-search fill-current text-gray-400 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
