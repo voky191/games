@@ -10,6 +10,10 @@ class SearchController extends Controller
 {
     public function index(Request $request){
 
+        $request->validate([
+           'search' => 'required|string',
+        ]);
+
         $name = $request->input('search');
         //if($name != '') {
         $games = Game::search($name)

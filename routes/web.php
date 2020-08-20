@@ -21,4 +21,4 @@ Route::get('/error', function (){
 Route::get('/{text}', function (){
     return redirect('/error');
 });
-Route::post('/search', 'SearchController@index')->name('search')->middleware('notEmptyInput');
+Route::post('/search', 'SearchController@index')->name('search');//->middleware('notEmptyInput');
