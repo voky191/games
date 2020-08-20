@@ -55,5 +55,15 @@
         Powered by <a href="#" class="underline hover:text-gray-400">IGDB ARI</a>
     </div>
 </footer>
+<script>
+    document.addEventListener('invalid', (function(){
+        return function(e){
+            //prevent the browser from showing default error bubble/ hint
+            e.preventDefault();
+            // optionally fire off some custom validation handler
+            // myvalidationfunction();
+        };
+    })(), true);
+</script>
 </body>
 </html>
