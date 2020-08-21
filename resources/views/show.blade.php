@@ -1,7 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto px-4">
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+
+    <div class="container mx-auto px-4" id="root">
         <div class="game-details pb-12 flex flex-col lg:flex-row  border-b border-gray-800">
             <div class="flex-none">
                 @if (array_key_exists('cover', $game))
@@ -94,6 +104,27 @@
         </div> <!-- end images-container -->
         @endif
 
+        <div id="root">
+        <modal v-if="showModal" @close="showModal = false">
+            <p>Some text for modal here, we inserted it.</p>
+        </modal>
+        <button class="button is-primary is-outlined" style="height: 40px; margin-right: 15px;" @click="showModalAll">Show modal</button>
+        </div>
+
+        <script>
+            var openmodal = document.querySelectorAll('.modal-open');
+            for (var i = 0; i < openmodal.length; i++) {
+                openmodal[i].addEventListener('click', function(event){
+                    event.preventDefault();
+                    const body = document.querySelector('body');
+                    const modal = document.querySelector('.modal');
+                    modal.classList.toggle('opacity-0');
+                    modal.classList.toggle('pointer-events-none');
+                    body.classList.toggle('modal-active');
+                })
+            }
+        </script>
+
         @if (array_key_exists('videos', $game))
         <div class="iframe-container mt-12 border-b border-gray-800">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold mb-8">Related Video</h2>
@@ -140,6 +171,70 @@
         @endif
 
     </div>
+    <script>
+        /*Vue.component('modal',{
+            template: '<div class="modal is-active">\n' +
+                '        <div class="modal-background"></div>\n' +
+                '        <div class="modal-content" style="text-align: center">\n' +
+                '            <p style="margin-top: 20px">Modal message</p>\n' +
+                '            <hr>\n' +
+                '            <slot></slot>\n' +
+                '            <br>\n' +
+                '        </div>\n' +
+                '        <button aria-label="close" @click="$emit(\'close\')">x</button>\n' +
+                '    </div>'
+        });*/
+
+        Vue.component('modal', {
+            template: '<div class="modal-active pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">\n' +
+                '            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>\n' +
+                '\n' +
+                '            <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">\n' +
+                '\n' +
+                '\n' +
+                '                <!-- Add margin if you want to see some of the overlay behind the modal-->\n' +
+                '                <div class="modal-content py-4 text-left px-6">\n' +
+                '                    <!--Title-->\n' +
+                '                    <div class="flex justify-between items-center pb-3">\n' +
+                '                        <p class="text-2xl font-bold">Simple Modal!</p>\n' +
+                '                        <div class="modal-close cursor-pointer z-50" @click="$emit(\'close\')">\n' +
+                '                            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">\n' +
+                '                                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>\n' +
+                '                            </svg>\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '                    <!--Body-->\n' +
+                '                    <p>Modal content can go here</p>\n' +
+                '                    <p>...</p>\n' +
+                '                    <p>...</p>\n' +
+                '                    <p>...</p>\n' +
+                '                    <p>...</p>\n' +
+                '\n' +
+                '                    <!--Footer-->\n' +
+                '                    <div class="flex justify-end pt-2">\n' +
+                '                        <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>\n' +
+                '                        <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </div>'
+        });
+
+        let app = new Vue({
+            el: '#root',
+            data: {
+                showModal: false,
+            },
+            methods: {
+                showModalAll(){
+                    this.showModal = true;
+                }
+            }
+        });
+
+    </script>
     <script>
         let endColor = '#9ec64d';
         $('.progress').each(function(i) {
