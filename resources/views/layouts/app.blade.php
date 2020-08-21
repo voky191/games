@@ -40,6 +40,7 @@
                     </svg>
                     </button>
                 </div>
+                </form>
             </div>
             <div class="ml-6">
                 <a href=""><img src="https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png" alt="avatar" class="rounded-full w-8" style="max-width: fit-content"></a>
