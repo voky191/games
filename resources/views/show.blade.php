@@ -1,13 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
+
     <style>
         .modal {
-            transition: opacity 0.25s ease;
+            z-index:1;
+            display:none;
+            padding-top:10px;
+            position:fixed;
+            left:0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            width:100%;
+            height:100%;
+            overflow:auto;
+            background-color:rgb(0,0,0);
+            background-color:rgba(0,0,0,0.8)
         }
-        body.modal-active {
-            overflow-x: hidden;
-            overflow-y: visible !important;
+
+        .modal-content{
+            margin: auto;
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .modal-hover-opacity {
+            opacity:1;
+            filter:alpha(opacity=100);
+            -webkit-backface-visibility:hidden
+        }
+
+        .modal-hover-opacity:hover {
+            opacity:0.60;
+            filter:alpha(opacity=60);
+            -webkit-backface-visibility:hidden
+        }
+
+
+        .close {
+            text-decoration:none;float:right;font-size:24px;font-weight:bold;color:white
+        }
+        .container1 {
+            width:200px;
+            display:inline-block;
+        }
+        .modal-content, #caption {
+
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
         }
     </style>
 
@@ -95,35 +142,20 @@
             <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                 @foreach ($game['screenshots'] as $screenshot)
                     <div>
-                        <a href="{{ Str::replaceFirst('thumb', 'screenshot_huge', $screenshot['url']) }}">
-                            <img src="{{ Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url']) }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                        </a>
+                            <img src="{{ Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url']) }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150" onclick="onClick(this)">
                     </div>
                 @endforeach
             </div>
         </div> <!-- end images-container -->
         @endif
 
-        <div id="root">
-        <modal v-if="showModal" @close="showModal = false">
-            <p>Some text for modal here, we inserted it.</p>
-        </modal>
-        <button class="button is-primary is-outlined" style="height: 40px; margin-right: 15px;" @click="showModalAll">Show modal</button>
+        <div id="modal01" class="modal" onclick="this.style.display='none'">
+            <span class="close">&times;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <div class="modal-content">
+                <img id="img01" style="max-width:100%">
+            </div>
         </div>
 
-        <script>
-            var openmodal = document.querySelectorAll('.modal-open');
-            for (var i = 0; i < openmodal.length; i++) {
-                openmodal[i].addEventListener('click', function(event){
-                    event.preventDefault();
-                    const body = document.querySelector('body');
-                    const modal = document.querySelector('.modal');
-                    modal.classList.toggle('opacity-0');
-                    modal.classList.toggle('pointer-events-none');
-                    body.classList.toggle('modal-active');
-                })
-            }
-        </script>
 
         @if (array_key_exists('videos', $game))
         <div class="iframe-container mt-12 border-b border-gray-800">
@@ -174,70 +206,6 @@
 
     </div>
     <script>
-        /*Vue.component('modal',{
-            template: '<div class="modal is-active">\n' +
-                '        <div class="modal-background"></div>\n' +
-                '        <div class="modal-content" style="text-align: center">\n' +
-                '            <p style="margin-top: 20px">Modal message</p>\n' +
-                '            <hr>\n' +
-                '            <slot></slot>\n' +
-                '            <br>\n' +
-                '        </div>\n' +
-                '        <button aria-label="close" @click="$emit(\'close\')">x</button>\n' +
-                '    </div>'
-        });*/
-
-        Vue.component('modal', {
-            template: '<div class="modal-active pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">\n' +
-                '            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>\n' +
-                '\n' +
-                '            <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">\n' +
-                '\n' +
-                '\n' +
-                '                <!-- Add margin if you want to see some of the overlay behind the modal-->\n' +
-                '                <div class="modal-content py-4 text-left px-6">\n' +
-                '                    <!--Title-->\n' +
-                '                    <div class="flex justify-between items-center pb-3">\n' +
-                '                        <p class="text-2xl font-bold">Simple Modal!</p>\n' +
-                '                        <div class="modal-close cursor-pointer z-50" @click="$emit(\'close\')">\n' +
-                '                            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">\n' +
-                '                                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>\n' +
-                '                            </svg>\n' +
-                '                        </div>\n' +
-                '                    </div>\n' +
-                '\n' +
-                '                    <!--Body-->\n' +
-                '                    <p>Modal content can go here</p>\n' +
-                '                    <p>...</p>\n' +
-                '                    <p>...</p>\n' +
-                '                    <p>...</p>\n' +
-                '                    <p>...</p>\n' +
-                '\n' +
-                '                    <!--Footer-->\n' +
-                '                    <div class="flex justify-end pt-2">\n' +
-                '                        <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>\n' +
-                '                        <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>\n' +
-                '                    </div>\n' +
-                '\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '        </div>'
-        });
-
-        let app = new Vue({
-            el: '#root',
-            data: {
-                showModal: false,
-            },
-            methods: {
-                showModalAll(){
-                    this.showModal = true;
-                }
-            }
-        });
-
-    </script>
-    <script>
         let endColor = '#9ec64d';
         $('.progress').each(function(i) {
             let circle = new ProgressBar.Circle(this, {
@@ -256,5 +224,11 @@
                 }
             });
         });
+    </script>
+    <script>
+        function onClick(element) {
+            document.getElementById("img01").src = element.src;
+            document.getElementById("modal01").style.display = "block";
+        }
     </script>
 @endsection
