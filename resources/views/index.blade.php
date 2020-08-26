@@ -12,7 +12,7 @@
                                 <div class="progress" value="{{ round($game['aggregated_rating'])}}"></div>
                             </div>
                         </div>
-                        <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">{{$game->name}}</a>
+                        <a href="{{ route('games.show', $game['slug']) }}" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">{{$game->name}}</a>
                         <div class="text-gray-400 mt-1">
                             @foreach ($game['platforms'] as $platform)
                                     {{ $platform['abbreviation'] }}
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="ml-12">
-                            <a href="#" class="block text-base lg:text-lg font-semibold leading-tight hover:text-gray-400 mt-4">{{ $gameReview['name'] }}</a>
+                            <a href="{{ route('games.show', $gameReview['slug']) }}" class="block text-base lg:text-lg font-semibold leading-tight hover:text-gray-400 mt-4">{{ $gameReview['name'] }}</a>
                             <div class="text-gray-400 mt-1">
                                 @foreach ($gameReview['platforms'] as $platform)
                                     {{ $platform['abbreviation'] }}
@@ -54,7 +54,7 @@
                     <div class="game flex">
                         <a href="{{ route('games.show', $anticipatedGame['slug']) }}"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $anticipatedGame['cover']['url']) }}" alt="game cover" class="w-24 lg:w-48 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
                         <div class="ml-4">
-                            <a href="#" class="hover:text-gray-300">{{ $anticipatedGame['name'] }}</a>
+                            <a href="{{ route('games.show', $anticipatedGame['slug']) }}" class="hover:text-gray-300">{{ $anticipatedGame['name'] }}</a>
                             <div class="text-gray-400 text-sm mt-1">{{ date('j M Y', strtotime($anticipatedGame['first_release_date']) ) }}</div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                     <div class="game flex">
                         <a href="{{ route('games.show', $soonGame['slug']) }}"><img src="{{ Str::replaceFirst('thumb', 'cover_big', $soonGame['cover']['url']) }}" alt="game cover" class="w-16 hover:opacity-75 transition ease-in-out duration-150 shadow-md"></a>
                         <div class="ml-4">
-                            <a href="#" class="hover:text-gray-300">{{ $soonGame['name'] }}</a>
+                            <a href="{{ route('games.show', $soonGame['slug']) }}" class="hover:text-gray-300">{{ $soonGame['name'] }}</a>
                             <div class="text-gray-400 text-sm mt-1">{{ date('j M Y', strtotime($soonGame['first_release_date']) ) }}</div>
                         </div>
                     </div>

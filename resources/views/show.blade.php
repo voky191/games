@@ -166,7 +166,7 @@
                             @endif
                         </div>
                     </div>
-                    <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">{{ $sgame['name'] }}</a>
+                    <a href="{{ route('games.show', $sgame['slug']) }}" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">{{ $sgame['name'] }}</a>
                     <div class="text-gray-400 mt-1">
                         @if (array_key_exists('platforms', $sgame))
                             @foreach ($sgame['platforms'] as $platform)
